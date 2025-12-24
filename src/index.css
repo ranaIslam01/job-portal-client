@@ -1,2 +1,12 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin "daisyui";
+
+/* Basic dark-mode base styles for non-Tailwind elements */
+html.dark body {
+  background-color: #0b1220;
+  color: #e6eef8;
+}
+
+html.dark a {
+  color: #93c5fd;
+}

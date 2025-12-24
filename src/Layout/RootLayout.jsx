@@ -9,7 +9,7 @@ const RootLayout = () => {
       <header>
         <Navbar />
       </header>
-      <main className="grow">
+      <main className="grow pt-20">
         <Outlet />
       </main>
       <footer>

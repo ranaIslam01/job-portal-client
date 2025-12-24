@@ -17,12 +17,12 @@ const FindJob = () => {
             <input 
               type="text" 
               placeholder="জব টাইটেল বা কিওয়ার্ড..." 
-              className="border border-gray-200 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              className="border text-gray-700 border-gray-200 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             />
             <input 
               type="text" 
               placeholder="শহর বা দেশ..." 
-              className="border border-gray-200 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              className="border text-gray-700 border-gray-200 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             />
             <button className="bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
               সার্চ করুন
