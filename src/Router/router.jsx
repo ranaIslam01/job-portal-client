@@ -14,18 +14,17 @@ import PrivateRoute from "../PrivateRoute.jsx/PrivateRoute";
 import SalaryTips from "../Components/SalaryTips";
 import SalaryCalculator from "../Components/SalaryCalculator";
 import SalaryLayout from "../Layout/SalaryLayout";
+import Errorpage from "../Pages/Errorpage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
+    errorElement: <Errorpage/>,
     children: [
       {
         index: true,
         Component: Home,
-      },
-      {
-        errorElement: "Page not found"
       },
       {
         path: "find-jobs",

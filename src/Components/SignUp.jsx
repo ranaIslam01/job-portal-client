@@ -10,13 +10,14 @@ import { FcGoogle } from "react-icons/fc"; // Google Icon
 import { AuthContext } from "../Contexts/AuthContext/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import GoogleSignUp from "./GoogleSignUp";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { createUser, signInWithGoogle } = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
 
   const handleSignUP = async (e) => {
     e.preventDefault();
@@ -48,19 +49,7 @@ const SignUp = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-      await signInWithGoogle();
-      toast.success("গুগল দিয়ে সফলভাবে সাইন আপ করা হয়েছে!");
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
-    } catch (error) {
-      console.error(error);
-      toast.error("গুগল সাইন ইন ব্যর্থ হয়েছে।");
-    }
-  };
-
+  
   return (
     <div className="min-h-[90vh] flex items-center justify-center bg-gray-50 px-4 py-12">
       <ToastContainer />
@@ -75,15 +64,10 @@ const SignUp = () => {
           </p>
         </div>
 
-        {/* Google Sign-In Button */}
-        <button
-          type="button"
-          onClick={handleGoogleSignIn}
-          className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3.5 rounded-2xl font-bold text-gray-700 hover:bg-gray-50 transition-all duration-300 mb-6 shadow-sm active:scale-[0.98]"
-        >
-          <FcGoogle size={24} />
-          গুগল দিয়ে সাইন আপ করুন
-        </button>
+          {/* sing in with google  */}
+        <div>
+          <GoogleSignUp/>
+        </div>
 
         {/* Divider */}
         <div className="relative mb-6">
