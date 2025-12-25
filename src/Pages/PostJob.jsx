@@ -15,6 +15,19 @@ const PostJob = () => {
     e.preventDefault();
     console.log("Job Data Submitted:", formData);
     alert("চাকরি সফলভাবে পোস্ট করা হয়েছে!");
+
+    fetch("http://localhost:3000/job-post",{
+      method: "POST",
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(PostJob)
+    } )
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+    })
+
   };
 
   const handleChange = (e) => {

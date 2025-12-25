@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "find-jobs",
-        loader: () => fetch("http://localhost:3000/jobs"),
+        loader: () => fetch("https://job-portal-server-y6ck.onrender.com/jobs"),
         Component: FindJob,
         HydrateFallback: Loading,
       },
@@ -31,7 +31,9 @@ export const router = createBrowserRouter([
         path: "jobs/:id",
         Component: JobDetails,
         loader: async ({ params }) => {
-          const res = await fetch(`http://localhost:3000/jobs/${params.id}`);
+          const res = await fetch(
+            `https://job-portal-server-y6ck.onrender.com/jobs/${params.id}`
+          );
           if (!res.ok) {
             throw new Response("Not Found", { status: 404 });
           }
@@ -65,12 +67,16 @@ export const router = createBrowserRouter([
         Component: SignUp,
       },
       {
-        path: "job-apply/:id", 
-        element: <PrivateRoute>
-          <JobApply></JobApply>
-        </PrivateRoute>,
+        path: "job-apply/:id",
+        element: (
+          <PrivateRoute>
+            <JobApply></JobApply>
+          </PrivateRoute>
+        ),
         loader: async ({ params }) => {
-          const res = await fetch(`http://localhost:3000/jobs/${params.id}`);
+          const res = await fetch(
+            `https://job-portal-server-y6ck.onrender.com/jobs/${params.id}`
+          );
           if (!res.ok) {
             throw new Response("Not Found", { status: 404 });
           }

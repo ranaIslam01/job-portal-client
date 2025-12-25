@@ -23,8 +23,7 @@ const SignIn = () => {
     
     // Firebase Sign In
     signIn(email, password)
-    .then((result) => {
-      console.log(result.user);
+    .then(() => {
         toast.success("সফলভাবে লগইন করা হয়েছে!");
         setTimeout(() => {
           navigate("/")

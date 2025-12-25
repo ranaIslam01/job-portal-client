@@ -3,7 +3,6 @@ import JobCard from "../Components/JobCard";
 
 const FindJob = () => {
   const initialJobs = useLoaderData();
-  console.log(initialJobs);
   
   return (
     <div className="bg-gray-50 min-h-screen py-10 font-sans">
@@ -89,7 +88,7 @@ const FindJob = () => {
 
             <div className="grid grid-cols-1 gap-5">
               {initialJobs.map((job) => (
-                <JobCard job = {job} key={job.id}></JobCard>
+                <JobCard job = {job} key={job._id}></JobCard>
               ))}
             </div>
           </main>
