@@ -39,23 +39,34 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setloading(false);
+      
       if (currentUser?.email) {
-        const userData = { email: currentUser.email };
+        const userEmail = { email: currentUser.email };
+        // JWT টোকেন পাওয়ার জন্য সার্ভারে কল
         axios
-          .post("https://job-portal-server-y6ck.onrender.com/jwt", {
-            userData,
+          .post("https://job-portal-server-y6ck.onrender.com/jwt", userEmail, {
+            withCredentials: true, // এটি কুকি সেট করতে সাহায্য করবে
           })
           .then((res) => {
-            console.log("token after jwt", res.data);
-            const token = res.data.token;
-            localStorage.setItem("token", token);
+            console.log("Login and JWT success:", res.data);
+            setloading(false);
           })
           .catch((error) => {
-            console.log(error);
+            console.log("JWT Error:", error);
+            setloading(false);
+          });
+      } else {
+        // ইউজার লগআউট করলে কুকি ক্লিন করার জন্য কল
+        axios
+          .post("https://job-portal-server-y6ck.onrender.com/logout", {}, {
+            withCredentials: true,
+          })
+          .then(() => {
+            setloading(false);
           });
       }
     });
+
     return () => {
       unSubscribe();
     };
@@ -71,9 +82,9 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <div>
-      <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-    </div>
+    <AuthContext.Provider value={authInfo}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

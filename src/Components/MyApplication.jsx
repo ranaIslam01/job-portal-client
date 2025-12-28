@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext/AuthContext";
+import { Link } from "react-router";
 
 const MyApplications = () => {
   const { user } = useContext(AuthContext);
+  console.log(user);
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,7 +40,7 @@ const MyApplications = () => {
             </p>
           </div>
           <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold inline-block">
-            ইউজার: {user?.displayName || "প্রার্থী"}
+            ইউজার: {user?.email || "প্রার্থী"}
           </div>
         </div>
 
@@ -70,7 +72,7 @@ const MyApplications = () => {
                   <tr key={app._id} className="hover:bg-blue-50/50 transition-colors duration-200">
                     <td className="py-4 px-6">
                       <div className="flex items-center">
-                        <div className="h-10 w-10 flex-shrink-0 bg-blue-600 text-white rounded-lg flex items-center justify-center font-bold text-xl">
+                        <div className="h-10 w-10 shrink-0 bg-blue-600 text-white rounded-lg flex items-center justify-center font-bold text-xl">
                           {app.company?.charAt(0)}
                         </div>
                         <div className="ml-4">
@@ -115,7 +117,7 @@ const MyApplications = () => {
                     <div className="flex flex-col items-center">
                       <div className="text-6xl mb-4 text-gray-200">📁</div>
                       <p className="text-xl font-bold text-gray-400">আপনি এখনো কোনো আবেদন করেননি</p>
-                      <button className="mt-4 btn btn-primary btn-sm rounded-full">জব খুঁজুন</button>
+                      <Link to = "/find-jobs" className="mt-4 btn btn-primary btn-sm rounded-full">জব খুঁজুন</Link>
                     </div>
                   </td>
                 </tr>

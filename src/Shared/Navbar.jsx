@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { NavLink, Link } from "react-router";
 import { AuthContext } from "../Contexts/AuthContext/AuthContext";
 import { toast } from "react-toastify";
-import { motion } from "framer-motion"; // motion/react এর বদলে framer-motion সাধারণত ব্যবহৃত হয়
+import { motion } from "framer-motion";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -12,30 +12,16 @@ const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  const handleSignOut = () => {
-    signOutUser()
-      .then(() => {
-        // Firebase থেকে সাইন আউট হওয়ার পর আপনার সার্ভারের কুকি রিমুভ করার জন্য কল
-        fetch('https://job-portal-server-y6ck.onrender.com/logout', {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json'
-          },
-          // credentials: 'include' অবশ্যই দিতে হবে যাতে কুকি এক্সেস করতে পারে
-          credentials: 'include' 
-        })
-        .then(res => res.json())
-        .then(data => {
-          if(data.success){
-            toast.success("Log Out Successful");
-          }
-        })
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Something went wrong");
-      });
-  };
+ const handleSignOut = () => {
+  signOutUser()
+    .then(() => {
+      toast.success("Log Out Successful");
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("Something went wrong");
+    });
+};
 
   // ১. আপনার নতুন পেজ "My Jobs" এখানে অ্যাড করা হয়েছে
   const navLinks = [
@@ -82,7 +68,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-14">
           
           {/* লোগো */}
-          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+          <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
               <motion.span
                 animate={{
@@ -156,7 +142,7 @@ const Navbar = () => {
       {/* মোবাইল ড্রপডাউন (ট্যাবলেট পর্যন্ত কভার করবে) */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100 ${
-          isOpen ? "max-h-[600px] opacity-100 shadow-2xl" : "max-h-0 opacity-0"
+          isOpen ? "max-h-150 opacity-100 shadow-2xl" : "max-h-0 opacity-0"
         }`}
       >
         <div className="px-6 py-8 space-y-6">
