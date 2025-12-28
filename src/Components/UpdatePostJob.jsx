@@ -6,7 +6,7 @@ import axios from "axios";
 const UpdatePostJob = () => {
   const { id } = useParams(); // URL থেকে আইডি নেওয়ার জন্য
   const navigate = useNavigate();
-  
+
   // ১. job স্টেট সঠিকভাবে ডিক্লেয়ার করা হয়েছে
   const [job, setJob] = useState(null);
 
@@ -56,12 +56,21 @@ const UpdatePostJob = () => {
           timer: 1500,
           showConfirmButton: false,
         });
-        navigate("/my-posted-jobs");
+        navigate("/my-jobs");
       } else {
-        Swal.fire("তথ্য অপরিবর্তিত", "আপনি কোনো পরিবর্তন করেননি বা সার্ভারে সমস্যা।", "info");
+        Swal.fire(
+          "তথ্য অপরিবর্তিত",
+          "আপনি কোনো পরিবর্তন করেননি বা সার্ভারে সমস্যা।",
+          "info"
+        );
       }
     } catch (error) {
-      Swal.fire("ভুল হয়েছে", "সার্ভারে সমস্যা হয়েছে, আবার চেষ্টা করুন।", "error");
+      Swal.fire(
+        "ভুল হয়েছে",
+        "সার্ভারে সমস্যা হয়েছে, আবার চেষ্টা করুন।",
+        "error"
+      );
+      console.log(error);
     }
   };
 
@@ -70,13 +79,16 @@ const UpdatePostJob = () => {
   };
 
   // ডাটা লোড না হওয়া পর্যন্ত একটি লোডিং মেসেজ দেখানো ভালো
-  if (!job) return <div className="text-center py-20">Loading job details...</div>;
+  if (!job)
+    return <div className="text-center py-20">Loading job details...</div>;
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 text-gray-700">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-gray-900">চাকরির তথ্য আপডেট করুন</h1>
+          <h1 className="text-3xl font-bold text-gray-900">
+            চাকরির তথ্য আপডেট করুন
+          </h1>
           <p className="text-gray-600 mt-2">সঠিক তথ্য দিয়ে ফর্মটি পূরণ করুন</p>
         </div>
 
@@ -84,7 +96,9 @@ const UpdatePostJob = () => {
           <form onSubmit={handleUpdate} className="space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">চাকরির পদবী (Job Title) *</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                চাকরির পদবী (Job Title) *
+              </label>
               <input
                 type="text"
                 name="title"
@@ -99,7 +113,9 @@ const UpdatePostJob = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Company */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">কোম্পানির নাম *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  কোম্পানির নাম *
+                </label>
                 <input
                   type="text"
                   name="company"
@@ -113,7 +129,9 @@ const UpdatePostJob = () => {
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">ক্যাটাগরি</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  ক্যাটাগরি
+                </label>
                 <select
                   name="category"
                   value={formData.category}
@@ -132,10 +150,15 @@ const UpdatePostJob = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Job Type */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">চাকরির ধরন</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  চাকরির ধরন
+                </label>
                 <div className="flex gap-4 mt-2">
                   {["Full-time", "Remote", "Contract"].map((type) => (
-                    <label key={type} className="flex items-center space-x-2 cursor-pointer">
+                    <label
+                      key={type}
+                      className="flex items-center space-x-2 cursor-pointer"
+                    >
                       <input
                         type="radio"
                         name="jobType"
@@ -152,7 +175,9 @@ const UpdatePostJob = () => {
 
               {/* Salary */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">বেতন সীমা (Salary)</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  বেতন সীমা (Salary)
+                </label>
                 <input
                   type="text"
                   name="salary"
@@ -166,7 +191,9 @@ const UpdatePostJob = () => {
 
             {/* Location */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">লোকেশন (Location)</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                লোকেশন (Location)
+              </label>
               <input
                 type="text"
                 name="location"
@@ -179,7 +206,9 @@ const UpdatePostJob = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">জব ডেসক্রিপশন (Description) *</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                জব ডেসক্রিপশন (Description) *
+              </label>
               <textarea
                 name="description"
                 rows="5"

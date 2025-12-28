@@ -62,23 +62,35 @@ export const router = createBrowserRouter([
       },
       {
         path: "my-jobs",
-        Component: MyPostedJobs,
+        element: (
+          <PrivateRoute>
+            <MyPostedJobs />
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-applications",
-        Component: MyApplications,
+        element: (
+          <PrivateRoute>
+            <MyApplications />
+          </PrivateRoute>
+        ),
       },
       {
         path: "post-job",
-        element: <PrivateRoute>
-          <PostJob />
-        </PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <PostJob />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/update-job/:id",
-        element: <PrivateRoute>
-          <UpdatePostJob />
-        </PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <UpdatePostJob />
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(
             `https://job-portal-server-y6ck.onrender.com/job-post/${params.id}`

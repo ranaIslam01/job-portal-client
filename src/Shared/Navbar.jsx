@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { NavLink, Link } from "react-router";
 import { AuthContext } from "../Contexts/AuthContext/AuthContext";
-import { toast } from "react-toastify";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -12,15 +12,39 @@ const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
- const handleSignOut = () => {
-  signOutUser()
-    .then(() => {
-      toast.success("Log Out Successful");
-    })
-    .catch((error) => {
-      console.log(error);
-      toast.error("Something went wrong");
-    });
+const handleSignOut = () => {
+  Swal.fire({
+    title: "আপনি কি নিশ্চিত?",
+    text: "আপনি আপনার অ্যাকাউন্ট থেকে লগ-আউট করতে যাচ্ছেন!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "হ্যাঁ, লগ-আউট করুন!",
+    cancelButtonText: "না, থাক",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // ইউজার 'হ্যাঁ' ক্লিক করলে signOutUser কল হবে
+      signOutUser()
+        .then(() => {
+          Swal.fire({
+            title: "সফল হয়েছে!",
+            text: "আপনি সফলভাবে লগ-আউট করেছেন।",
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          Swal.fire({
+            title: "ব্যর্থ!",
+            text: "লগ-আউট করার সময় কিছু ভুল হয়েছে।",
+            icon: "error",
+          });
+        });
+    }
+  });
 };
 
   // ১. আপনার নতুন পেজ "My Jobs" এখানে অ্যাড করা হয়েছে

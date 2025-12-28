@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../Contexts/AuthContext/AuthContext";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const PostJob = () => {
+  const { user } = useContext(AuthContext); // ইউজার ইমেইল পাওয়ার জন্য
   const [formData, setFormData] = useState({
     title: "",
     company: "",
@@ -9,23 +13,52 @@ const PostJob = () => {
     salary: "",
     location: "",
     description: "",
+    hr_email: "",
   });
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Job Data Submitted:", formData);
-    alert("চাকরি সফলভাবে পোস্ট করা হয়েছে!");
 
-    fetch("https://job-portal-server-y6ck.onrender.com//job-post", {
+    // ডাটা পাঠানোর আগে ইউজারের ইমেইলটি hr_email হিসেবে সেট করে নেওয়া
+    const jobData = {
+      ...formData,
+      hr_email: user?.email, // লগইন করা ইউজারের ইমেইল এখানে যুক্ত হবে
+    };
+
+    fetch("https://job-portal-server-y6ck.onrender.com/job-post", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(jobData),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.insertedId) {
+          // SweetAlert2 ব্যবহার করা হয়েছে
+          Swal.fire({
+            title: "সফল!",
+            text: "চাকরি সফলভাবে পোস্ট করা হয়েছে!",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "ঠিক আছে",
+          });
+          e.target.reset(); // ফর্ম ক্লিয়ার করার জন্য
+
+          setTimeout(() => {
+            navigate("/my-jobs");
+          }, 100);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        Swal.fire({
+          title: "ভুল হয়েছে!",
+          text: "চাকরি পোস্ট করা সম্ভব হয়নি।",
+          icon: "error",
+        });
       });
   };
 
@@ -36,7 +69,6 @@ const PostJob = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 text-gray-700">
       <div className="max-w-3xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-gray-900">
             নতুন চাকরি পোস্ট করুন
@@ -46,7 +78,6 @@ const PostJob = () => {
           </p>
         </div>
 
-        {/* Form Card */}
         <div className="bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Job Title */}
@@ -59,7 +90,7 @@ const PostJob = () => {
                 name="title"
                 required
                 placeholder="যেমন: Senior React Developer"
-                className="w-full px-4 py-3  rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition"
                 onChange={handleChange}
               />
             </div>
@@ -163,7 +194,7 @@ const PostJob = () => {
                 name="description"
                 rows="5"
                 required
-                placeholder="চাকরির দায়িত্ব এবং যোগ্যতা সম্পর্কে বিস্তারিত লিখুন..."
+                placeholder="চাকরির দায়িত্ব এবং যোগ্যতা সম্পর্কে বিস্তারিত লিখুন..."
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition resize-none"
                 onChange={handleChange}
               ></textarea>

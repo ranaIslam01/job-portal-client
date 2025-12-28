@@ -28,8 +28,12 @@ const FindJob = () => {
   // সার্চ লজিক (বাটনে ক্লিক করলে কাজ করবে)
   const handleSearch = () => {
     const filtered = initialJobs.filter((job) => {
-      const titleMatch = job.title.toLowerCase().includes(searchTerm.toLowerCase());
-      const locationMatch = job.location.toLowerCase().includes(locationTerm.toLowerCase());
+      const titleMatch = job.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const locationMatch = job.location
+        .toLowerCase()
+        .includes(locationTerm.toLowerCase());
       return titleMatch && locationMatch;
     });
     setJobs(filtered);
@@ -45,11 +49,14 @@ const FindJob = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-10 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* হেডার সেকশন */}
         <div className="mb-10 text-center md:text-left">
-          <h1 className="text-3xl font-extrabold text-gray-900">আপনার স্বপ্নের চাকরি খুঁজুন</h1>
-          <p className="text-gray-600 mt-2">সেরা কোম্পানিগুলোতে হাজারো চাকরির সুযোগ রয়েছে</p>
+          <h1 className="text-3xl font-extrabold text-gray-900">
+            আপনার স্বপ্নের চাকরি খুঁজুন
+          </h1>
+          <p className="text-gray-600 mt-2">
+            সেরা কোম্পানিগুলোতে হাজারো চাকরির সুযোগ রয়েছে
+          </p>
         </div>
 
         {/* সার্চ বার */}
@@ -73,7 +80,7 @@ const FindJob = () => {
                 className="w-full pl-4 pr-3 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-700"
               />
             </div>
-            <button 
+            <button
               onClick={handleSearch}
               className="bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
             >
@@ -94,16 +101,26 @@ const FindJob = () => {
               <div className="mb-8">
                 <h4 className="font-semibold mb-4 text-gray-800">চাকরির ধরন</h4>
                 <div className="space-y-3">
-                  {["Full-Time", "Part-Time", "Remote", "Hybrid", "Intern"].map((type) => (
-                    <label key={type} className="flex items-center group cursor-pointer">
-                      <input type="checkbox" className="w-5 h-5 border-gray-300 rounded text-blue-600 focus:ring-blue-500" />
-                      <span className="ml-3 text-gray-600 group-hover:text-blue-600 transition-colors">{type}</span>
-                    </label>
-                  ))}
+                  {["Full-Time", "Part-Time", "Remote", "Hybrid", "Intern"].map(
+                    (type) => (
+                      <label
+                        key={type}
+                        className="flex items-center group cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          className="w-5 h-5 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="ml-3 text-gray-600 group-hover:text-blue-600 transition-colors">
+                          {type}
+                        </span>
+                      </label>
+                    )
+                  )}
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={clearFilter}
                 className="w-full py-3 text-red-500 font-medium hover:bg-red-50 rounded-xl transition-colors border border-transparent hover:border-red-100"
               >
@@ -118,13 +135,16 @@ const FindJob = () => {
               // লোডিং স্পিনার
               <div className="flex flex-col items-center justify-center py-20">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
-                <p className="mt-4 text-gray-500 italic">চাকরি খোঁজা হচ্ছে...</p>
+                <p className="mt-4 text-gray-500 italic">
+                  চাকরি খোঁজা হচ্ছে...
+                </p>
               </div>
             ) : (
               <>
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xl font-bold text-gray-800">
-                    মোট <span className="text-blue-600">{jobs.length}টি</span> চাকরি পাওয়া গেছে
+                    মোট <span className="text-blue-600">{jobs.length}টি</span>{" "}
+                    চাকরি পাওয়া গেছে
                   </h2>
                 </div>
 
@@ -135,7 +155,9 @@ const FindJob = () => {
                     ))
                   ) : (
                     <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-300">
-                      <p className="text-gray-500">দুঃখিত, আপনার সার্চের সাথে কোনো চাকরি মেলেনি।</p>
+                      <p className="text-gray-500">
+                        দুঃখিত, আপনার সার্চের সাথে কোনো চাকরি মেলেনি।
+                      </p>
                     </div>
                   )}
                 </div>

@@ -1,32 +1,95 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext/AuthContext";
 import { Link } from "react-router";
+import Swal from "sweetalert2"; // SweetAlert2 ইমপোর্ট করুন
 
 const MyApplications = () => {
   const { user } = useContext(AuthContext);
-  // console.log(user);
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user?.email) {
-      fetch(
-        `https://job-portal-server-y6ck.onrender.com/job-applications?email=${user.email}`,{
-          credentials:"include"
-        }
-        
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setApplications(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching applications:", error);
-          setLoading(false);
-        });
+    // ১. ইউজার বা ইমেইল না থাকলে ফেচ করার দরকার নেই
+    if (!user?.email) {
+      setLoading(false);
+      return;
     }
-  }, [user?.email]);
+
+    setLoading(true);
+
+    // ২. ইউআরএল-এ অবশ্যই 'email=' কী-ওয়ার্ডটি যোগ করতে হবে
+    fetch(
+      `https://job-portal-server-y6ck.onrender.com/job-applications?email=${user.email}`,
+      {
+        headers: {
+          authorization: `Bearer ${user?.accessToken}`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        // ৩. ডাটাবেসে যদি ফিল্ডের নাম 'email' না হয়ে 'applicant_email' হয়,
+        // তবে ব্যাকএন্ডে সেটা পরিবর্তন করতে হবে। আপনার ব্যাকএন্ড অনুযায়ী এখানে ডাটা চলে আসবে।
+        setApplications(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching applications:", error);
+        setLoading(false);
+      });
+  }, [user?.email, user?.accessToken]); // Dependency array-তে ইউজার ইমেইল রাখুন
+
+  // SweetAlert2 ব্যবহার করে আবেদন মুছে ফেলার ফাংশন
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "আপনি কি নিশ্চিত?",
+      text: "একবার মুছে ফেললে এটি আর ফিরে পাবেন না!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "হ্যাঁ, মুছে ফেলুন!",
+      cancelButtonText: "না, বাতিল করুন",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(
+          `https://job-portal-server-y6ck.onrender.com/job-applications/${id}`,
+          {
+            method: "DELETE",
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              Swal.fire({
+                title: "মুছে ফেলা হয়েছে!",
+                text: "আপনার আবেদনটি সফলভাবে ডিলিট করা হয়েছে।",
+                icon: "success",
+              });
+              const remaining = applications.filter((app) => app._id !== id);
+              setApplications(remaining);
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting:", error);
+            Swal.fire("Error!", "মুছে ফেলার সময় একটি সমস্যা হয়েছে।", "error");
+          });
+      }
+    });
+  };
+
+  if (!user?.email && !loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          আপনি লগইন করেননি!
+        </h2>
+        <Link to="/login" className="btn btn-primary px-8 rounded-full">
+          লগইন করুন
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -38,48 +101,61 @@ const MyApplications = () => {
               আমার আবেদনসমূহ
             </h2>
             <p className="mt-2 text-gray-600">
-              আপনি এ পর্যন্ত মোট <span className="font-bold text-blue-600">{applications.length}টি</span> জবে আবেদন করেছেন।
+              মোট{" "}
+              <span className="font-bold text-blue-600">
+                {applications.length}টি
+              </span>{" "}
+              আবেদন
             </p>
           </div>
-          <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold inline-block">
-            ইউজার: {user?.email || "প্রার্থী"}
+          <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
+            {user?.email}
           </div>
         </div>
 
         {/* Table Container */}
         <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
           <table className="table w-full border-collapse">
-            {/* Table Head */}
             <thead>
-              <tr className="bg-gray-100 border-b border-gray-200">
-                <th className="py-5 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">কোম্পানি</th>
-                <th className="py-5 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">পজিশন</th>
-                <th className="py-5 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">আবেদনের তারিখ</th>
-                <th className="py-5 px-6 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">অ্যাকশন</th>
+              <tr className="bg-gray-100 border-b">
+                <th className="py-5 px-6 text-left font-bold text-gray-600">
+                  কোম্পানি
+                </th>
+                <th className="py-5 px-6 text-left font-bold text-gray-600">
+                  পজিশন
+                </th>
+                <th className="py-5 px-6 text-left font-bold text-gray-600">
+                  তারিখ
+                </th>
+                <th className="py-5 px-6 text-center font-bold text-gray-600">
+                  ডকুমেন্টস
+                </th>
+                <th className="py-5 px-6 text-center font-bold text-gray-600">
+                  অ্যাকশন
+                </th>
               </tr>
             </thead>
 
             <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td colSpan="4" className="py-32 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="loading loading-spinner loading-lg text-blue-600"></span>
-                      <p className="mt-4 text-gray-500 animate-pulse font-medium">আপনার ডেটা প্রস্তুত হচ্ছে...</p>
-                    </div>
+                  <td colSpan="5" className="py-32 text-center">
+                    <span className="loading loading-spinner loading-lg text-blue-600"></span>
                   </td>
                 </tr>
               ) : applications.length > 0 ? (
                 applications.map((app) => (
-                  <tr key={app._id} className="hover:bg-blue-50/50 transition-colors duration-200">
+                  <tr
+                    key={app._id}
+                    className="hover:bg-blue-50/50 transition-colors"
+                  >
                     <td className="py-4 px-6">
                       <div className="flex items-center">
-                        <div className="h-10 w-10 shrink-0 bg-blue-600 text-white rounded-lg flex items-center justify-center font-bold text-xl">
+                        <div className="h-10 w-10 bg-blue-600 text-white rounded-lg flex items-center justify-center font-bold">
                           {app.company?.charAt(0)}
                         </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-bold text-gray-900">{app.company}</div>
-                          <div className="text-xs text-gray-500 font-medium italic">Verified Company</div>
+                        <div className="ml-4 font-bold text-gray-900">
+                          {app.company}
                         </div>
                       </div>
                     </td>
@@ -88,8 +164,10 @@ const MyApplications = () => {
                         {app.job_title}
                       </span>
                     </td>
-                    <td className="py-4 px-6 text-sm text-gray-600 font-medium">
-                      {new Date(app.applied_date).toLocaleDateString('bn-BD')}
+                    <td className="py-4 px-6 text-sm text-gray-600">
+                      {app.applied_date
+                        ? new Date(app.applied_date).toLocaleDateString("bn-BD")
+                        : "N/A"}
                     </td>
                     <td className="py-4 px-6 text-center">
                       <div className="flex justify-center gap-2">
@@ -97,7 +175,7 @@ const MyApplications = () => {
                           href={app.github_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="px-4 py-2 text-xs font-bold border-2 border-gray-800 text-gray-800 rounded-lg hover:bg-gray-800 hover:text-white transition-all duration-300"
+                          className="text-gray-900 hover:text-white btn btn-xs btn-outline"
                         >
                           GitHub
                         </a>
@@ -105,29 +183,53 @@ const MyApplications = () => {
                           href={app.resume_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="px-4 py-2 text-xs font-bold bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300"
+                          className="btn btn-xs btn-primary text-white"
                         >
                           Resume
                         </a>
                       </div>
                     </td>
+                    <td className="py-4 px-6 text-center">
+                      <button
+                        onClick={() => handleDelete(app._id)}
+                        className="btn btn-ghost btn-circle text-red-500 hover:bg-red-50"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                      </button>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="py-24 text-center">
-                    <div className="flex flex-col items-center">
-                      <div className="text-6xl mb-4 text-gray-200">📁</div>
-                      <p className="text-xl font-bold text-gray-400">আপনি এখনো কোনো আবেদন করেননি</p>
-                      <Link to = "/find-jobs" className="mt-4 btn btn-primary btn-sm rounded-full">জব খুঁজুন</Link>
-                    </div>
+                  <td colSpan="5" className="py-24 text-center">
+                    <p className="text-xl font-bold text-gray-400">
+                      কোনো আবেদন পাওয়া যায়নি
+                    </p>
+                    <Link
+                      to="/find-jobs"
+                      className="mt-4 btn btn-primary btn-sm rounded-full"
+                    >
+                      জব খুঁজুন
+                    </Link>
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
   );
