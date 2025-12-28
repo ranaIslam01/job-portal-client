@@ -11,7 +11,9 @@ const MyApplications = () => {
   useEffect(() => {
     if (user?.email) {
       fetch(
-        `https://job-portal-server-y6ck.onrender.com/job-applications?email=${user.email}`
+        `https://job-portal-server-y6ck.onrender.com/job-applications?email=${user.email}`,{
+          credentials:"include"
+        }
         
       )
         .then((res) => res.json())

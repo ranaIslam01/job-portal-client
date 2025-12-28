@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       setloading(false);
       if(currentUser?.email){
-        axios.post('http://localhost:3000/jwt',{email: currentUser.email})
+        axios.post('http://localhost:3000/jwt',{email: currentUser.email}, {withCredentials: true})
         .then(res => console.log(res)
         )
         .catch(err => console.log(err))
