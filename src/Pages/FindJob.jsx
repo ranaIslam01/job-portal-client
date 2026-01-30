@@ -3,13 +3,14 @@ import JobCard from "../Components/JobCard";
 import { useEffect, useState } from "react";
 
 const FindJob = () => {
-  const [initialJobs, setInitialJobs] = useState([]); // মূল ডাটা স্টোর করার জন্য
-  const [jobs, setJobs] = useState([]); // ফিল্টার করা ডাটা দেখানোর জন্য
+  const [initialJobs, setInitialJobs] = useState([]); // মূল ডাটা
+  const [jobs, setJobs] = useState([]); // ফিল্টার করা ডাটা
   const [searchTerm, setSearchTerm] = useState("");
   const [locationTerm, setLocationTerm] = useState("");
-  const [loading, setLoading] = useState(true); // লোডিং স্টেট
+  const [selectedTypes, setSelectedTypes] = useState([]); // চেকবক্সের জন্য স্টেট
+  const [loading, setLoading] = useState(true);
 
-  // ডাটা ফেচ করা
+  // ১. ডাটা ফেচ করা
   useEffect(() => {
     setLoading(true);
     fetch("https://job-portal-server-y6ck.onrender.com/jobs")
@@ -25,24 +26,44 @@ const FindJob = () => {
       });
   }, []);
 
-  // সার্চ লজিক (বাটনে ক্লিক করলে কাজ করবে)
-  const handleSearch = () => {
+  // ২. রিয়েল-টাইম ফিল্টার লজিক (টাইপ করলে বা চেকবক্স ক্লিক করলে এটি অটো চলবে)
+  useEffect(() => {
     const filtered = initialJobs.filter((job) => {
+      // সার্চ টার্ম ম্যাচ (টাইটেল)
       const titleMatch = job.title
-        .toLowerCase()
+        ?.toLowerCase()
         .includes(searchTerm.toLowerCase());
+      
+      // লোকেশন ম্যাচ
       const locationMatch = job.location
-        .toLowerCase()
+        ?.toLowerCase()
         .includes(locationTerm.toLowerCase());
-      return titleMatch && locationMatch;
+
+      // চেকবক্স (Job Type) ম্যাচ
+      // যদি কোনো চেকবক্স সিলেক্ট না থাকে তবে সব দেখাবে, আর থাকলে শুধু সিলেক্ট করা গুলো দেখাবে
+      const typeMatch =
+        selectedTypes.length === 0 || selectedTypes.includes(job.jobType);
+
+      return titleMatch && locationMatch && typeMatch;
     });
+
     setJobs(filtered);
+  }, [searchTerm, locationTerm, selectedTypes, initialJobs]);
+
+  // ৩. চেকবক্স হ্যান্ডেল করার ফাংশন
+  const handleCheckboxChange = (type) => {
+    if (selectedTypes.includes(type)) {
+      setSelectedTypes(selectedTypes.filter((t) => t !== type)); // আগে থাকলে রিমুভ করবে
+    } else {
+      setSelectedTypes([...selectedTypes, type]); // না থাকলে অ্যাড করবে
+    }
   };
 
-  // ফিল্টার রিসেট করার ফাংশন
+  // ৪. ফিল্টার রিসেট
   const clearFilter = () => {
     setSearchTerm("");
     setLocationTerm("");
+    setSelectedTypes([]);
     setJobs(initialJobs);
   };
 
@@ -80,11 +101,12 @@ const FindJob = () => {
                 className="w-full pl-4 pr-3 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-700"
               />
             </div>
+            {/* সার্চ বাটন এখন আর প্রয়োজন নেই, তবে UI ঠিক রাখতে এটি স্টাইল হিসেবে রাখা হলো */}
             <button
-              onClick={handleSearch}
-              className="bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
+              disabled
+              className="bg-blue-600 text-white font-semibold py-3 rounded-xl opacity-90 shadow-lg shadow-blue-200 cursor-default"
             >
-              সার্চ করুন
+              অটো ফিল্টার হচ্ছে...
             </button>
           </div>
         </div>
@@ -109,7 +131,9 @@ const FindJob = () => {
                       >
                         <input
                           type="checkbox"
-                          className="w-5 h-5 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
+                          checked={selectedTypes.includes(type)}
+                          onChange={() => handleCheckboxChange(type)}
+                          className="w-5 h-5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 cursor-pointer"
                         />
                         <span className="ml-3 text-gray-600 group-hover:text-blue-600 transition-colors">
                           {type}
@@ -129,15 +153,12 @@ const FindJob = () => {
             </div>
           </aside>
 
-          {/* জব লিস্টিং এরিয়া */}
+          {/* জব লিস্টিং এরিয়া */}
           <main className="w-full lg:w-3/4">
             {loading ? (
-              // লোডিং স্পিনার
               <div className="flex flex-col items-center justify-center py-20">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
-                <p className="mt-4 text-gray-500 italic">
-                  চাকরি খোঁজা হচ্ছে...
-                </p>
+                <p className="mt-4 text-gray-500 italic">চাকরি খোঁজা হচ্ছে...</p>
               </div>
             ) : (
               <>

@@ -67,7 +67,7 @@ const MyPostedJobs = () => {
         </div>
 
         {/* Responsive Container */}
-        <div className="bg-white shadow-md rounded-2xl border border-gray-100 overflow-hidden">
+        <div className="bg-white shadow-xl rounded-2xl border border-gray-100 overflow-hidden">
           {/* Horizontal scroll for small devices */}
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-150 md:min-w-full">
