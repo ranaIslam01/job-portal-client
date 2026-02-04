@@ -34,7 +34,7 @@ const SignIn = () => {
       .catch((error) => {
         console.error(error);
         toast.error("ভুল ইমেইল বা পাসওয়ার্ড! আবার চেষ্টা করুন।");
-        setLoading(false); // এরর হলেও লোডিং বন্ধ করতে হবে নাহলে বাটন ডিজেবল থেকে যাবে
+        setLoading(false);
       });
   };
 

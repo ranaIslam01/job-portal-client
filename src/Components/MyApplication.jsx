@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext/AuthContext";
 import { Link } from "react-router";
-import Swal from "sweetalert2"; // SweetAlert2 ইমপোর্ট করুন
+import Swal from "sweetalert2";
 
 const MyApplications = () => {
   const { user } = useContext(AuthContext);
@@ -30,7 +30,6 @@ useEffect(() => {
     } catch (error) {
       console.error("Error fetching applications:", error);
     } finally {
-      // ৩. সবশেষে (সফল হোক বা এরর হোক) লোডিং ফলস করুন
       setLoading(false);
     }
   };
@@ -38,7 +37,6 @@ useEffect(() => {
   fetchApplications();
 }, [user?.email, user?.accessToken]);
 
-  // SweetAlert2 ব্যবহার করে আবেদন মুছে ফেলার ফাংশন
   const handleDelete = (id) => {
     Swal.fire({
       title: "আপনি কি নিশ্চিত?",
@@ -114,7 +112,6 @@ useEffect(() => {
 
     {/* Table Container */}
     <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
-      {/* মোবাইল ডিভাইসে স্ক্রল করার জন্য এই ডিভটি অত্যন্ত জরুরি */}
       <div className="overflow-x-auto">
         <table className="table w-full border-collapse min-w-150 md:min-w-full">
           <thead>

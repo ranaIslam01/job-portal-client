@@ -5,8 +5,7 @@ import axios from "axios";
 import { AuthContext } from "../../Contexts/AuthContext/AuthContext";
 
 const MyPostedJobs = () => {
-  const { user } = useContext(AuthContext); // ইউজার নিন
-  const [jobs, setJobs] = useState([]);
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -3,14 +3,14 @@ import JobCard from "../Components/JobCard";
 import { useEffect, useState } from "react";
 
 const FindJob = () => {
-  const [initialJobs, setInitialJobs] = useState([]); // মূল ডাটা
-  const [jobs, setJobs] = useState([]); // ফিল্টার করা ডাটা
+  const [initialJobs, setInitialJobs] = useState([]);
+  const [jobs, setJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [locationTerm, setLocationTerm] = useState("");
-  const [selectedTypes, setSelectedTypes] = useState([]); // চেকবক্সের জন্য স্টেট
+  const [selectedTypes, setSelectedTypes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ১. ডাটা ফেচ করা
+
   useEffect(() => {
     setLoading(true);
     fetch("https://job-portal-server-y6ck.onrender.com/jobs")
@@ -26,21 +26,17 @@ const FindJob = () => {
       });
   }, []);
 
-  // ২. রিয়েল-টাইম ফিল্টার লজিক (টাইপ করলে বা চেকবক্স ক্লিক করলে এটি অটো চলবে)
+
   useEffect(() => {
     const filtered = initialJobs.filter((job) => {
-      // সার্চ টার্ম ম্যাচ (টাইটেল)
       const titleMatch = job.title
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase());
       
-      // লোকেশন ম্যাচ
       const locationMatch = job.location
         ?.toLowerCase()
         .includes(locationTerm.toLowerCase());
 
-      // চেকবক্স (Job Type) ম্যাচ
-      // যদি কোনো চেকবক্স সিলেক্ট না থাকে তবে সব দেখাবে, আর থাকলে শুধু সিলেক্ট করা গুলো দেখাবে
       const typeMatch =
         selectedTypes.length === 0 || selectedTypes.includes(job.jobType);
 
@@ -50,16 +46,15 @@ const FindJob = () => {
     setJobs(filtered);
   }, [searchTerm, locationTerm, selectedTypes, initialJobs]);
 
-  // ৩. চেকবক্স হ্যান্ডেল করার ফাংশন
   const handleCheckboxChange = (type) => {
     if (selectedTypes.includes(type)) {
-      setSelectedTypes(selectedTypes.filter((t) => t !== type)); // আগে থাকলে রিমুভ করবে
+      setSelectedTypes(selectedTypes.filter((t) => t !== type));
     } else {
-      setSelectedTypes([...selectedTypes, type]); // না থাকলে অ্যাড করবে
+      setSelectedTypes([...selectedTypes, type]);
     }
   };
 
-  // ৪. ফিল্টার রিসেট
+  // ৪. Filter reset
   const clearFilter = () => {
     setSearchTerm("");
     setLocationTerm("");
@@ -70,7 +65,7 @@ const FindJob = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-10 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* হেডার সেকশন */}
+        {/* header */}
         <div className="mb-10 text-center md:text-left">
           <h1 className="text-3xl font-extrabold text-gray-900">
             আপনার স্বপ্নের চাকরি খুঁজুন
@@ -80,7 +75,7 @@ const FindJob = () => {
           </p>
         </div>
 
-        {/* সার্চ বার */}
+        {/*search bar */}
         <div className="bg-white p-4 rounded-2xl shadow-md border border-gray-100 mb-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="relative">
@@ -101,7 +96,6 @@ const FindJob = () => {
                 className="w-full pl-4 pr-3 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-700"
               />
             </div>
-            {/* সার্চ বাটন এখন আর প্রয়োজন নেই, তবে UI ঠিক রাখতে এটি স্টাইল হিসেবে রাখা হলো */}
             <button
               disabled
               className="bg-blue-600 text-white font-semibold py-3 rounded-xl opacity-90 shadow-lg shadow-blue-200 cursor-default"
@@ -112,7 +106,6 @@ const FindJob = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* সাইডবার ফিল্টার */}
           <aside className="w-full lg:w-1/4">
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
               <h3 className="text-lg font-bold mb-5 flex items-center gap-2">
@@ -153,7 +146,6 @@ const FindJob = () => {
             </div>
           </aside>
 
-          {/* জব লিস্টিং এরিয়া */}
           <main className="w-full lg:w-3/4">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20">

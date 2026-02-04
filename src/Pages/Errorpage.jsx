@@ -8,13 +8,13 @@ const Errorpage = () => {
          
          <motion.h1 
             animate={{ 
-               y: [0, -20, 0], // উপরে নিচে নড়বে
-               scale: [1, 1.1, 1], // ছোট বড় হবে
-               rotate: [0, 5, -5, 0] // হালকা ডানে বামে দুলবে
+               y: [0, -20, 0],
+               scale: [1, 1.1, 1],
+               rotate: [0, 5, -5, 0]
             }}
             transition={{ 
                duration: 3, 
-               repeat: Infinity, // সারাক্ষণ চলবে
+               repeat: Infinity,
                ease: "easeInOut" 
             }}
             className='text-9xl text-cyan-500 font-extrabold shadow-2xl drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]'

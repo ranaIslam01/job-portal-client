@@ -8,7 +8,6 @@ const SalaryCalculator = () => {
   const [experience, setExperience] = useState(1);
   const [role, setRole] = useState("Software Engineer");
 
-  // ডামি ক্যালকুলেশন লজিক
   const baseSalary = {
     "Software Engineer": 40000,
     "Product Designer": 35000,
@@ -33,7 +32,7 @@ const SalaryCalculator = () => {
           </div>
 
           <div className="p-8 md:p-12 space-y-8">
-            {/* পদবী সিলেকশন */}
+
             <div>
               <label className="block text-gray-700 font-bold mb-3">আপনার পদবী নির্বাচন করুন</label>
               <select 
@@ -48,7 +47,7 @@ const SalaryCalculator = () => {
               </select>
             </div>
 
-            {/* অভিজ্ঞতা স্লাইডার */}
+
             <div>
               <label className="block text-gray-700 font-bold mb-3">অভিজ্ঞতা (বছরে): <span className="text-blue-600">{experience} বছর</span></label>
               <input 
@@ -63,8 +62,8 @@ const SalaryCalculator = () => {
               </div>
             </div>
 
-            {/* রেজাল্ট সেকশন */}
-            <div className="bg-blue-50 p-8 rounded-[2rem] border border-blue-100 text-center">
+            {/*Result sectiono */}
+            <div className="bg-blue-50 p-8 rounded-4xl border border-blue-100 text-center">
               <h3 className="text-gray-600 font-medium mb-2">আপনার সম্ভাব্য মাসিক বেতন</h3>
               <div className="text-4xl md:text-5xl font-black text-blue-600">
                 ৳{estimatedSalary.toLocaleString()}

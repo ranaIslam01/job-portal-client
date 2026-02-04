@@ -5,7 +5,6 @@ const FeaturedJobs = () => {
   const [featuredJobs, setFeaturedJobs] = useState([]);
 
   useEffect(() => {
-    // আপনার সার্ভার ইউআরএল অনুযায়ী ফেচ করা হচ্ছে
     fetch("https://job-portal-server-y6ck.onrender.com/job-post")
       .then((res) => res.json())
       .then((data) => {
@@ -22,13 +21,12 @@ const FeaturedJobs = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {featuredJobs.map((job) => {
-          // এখানে map-এর ভেতরে সরাসরি ডিস্ট্রাকচারিং করা হয়েছে
           const { _id, title, company, jobType, location, salary, category } =
             job;
 
           return (
             <div
-              key={_id} // আপনার ডাটাবেজে '_id' আছে, তাই '_id' ব্যবহার করা ভালো
+              key={_id}
               className="border border-gray-200 p-6 rounded-xl shadow-sm hover:shadow-md hover:border-blue-400 transition-all group bg-white"
             >
               <div className="flex justify-between items-start">
@@ -65,7 +63,6 @@ const FeaturedJobs = () => {
         })}
       </div>
 
-      {/* যদি কোনো জব না থাকে তার জন্য একটি চেক */}
       {featuredJobs.length === 0 && (
         <p className="text-center text-gray-500 mt-10">কোনো জব পাওয়া যায়নি।</p>
       )}

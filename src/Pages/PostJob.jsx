@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 
 const PostJob = () => {
-  const { user } = useContext(AuthContext); // ইউজার ইমেইল পাওয়ার জন্য
+  const { user } = useContext(AuthContext); 
   const [formData, setFormData] = useState({
     title: "",
     company: "",
@@ -21,10 +21,9 @@ const PostJob = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // ডাটা পাঠানোর আগে ইউজারের ইমেইলটি hr_email হিসেবে সেট করে নেওয়া
     const jobData = {
       ...formData,
-      hr_email: user?.email, // লগইন করা ইউজারের ইমেইল এখানে যুক্ত হবে
+      hr_email: user?.email,
     };
 
     fetch("https://job-portal-server-y6ck.onrender.com/job-post", {
@@ -37,7 +36,6 @@ const PostJob = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.insertedId) {
-          // SweetAlert2 ব্যবহার করা হয়েছে
           Swal.fire({
             title: "সফল!",
             text: "চাকরি সফলভাবে পোস্ট করা হয়েছে!",
@@ -45,7 +43,7 @@ const PostJob = () => {
             confirmButtonColor: "#3085d6",
             confirmButtonText: "ঠিক আছে",
           });
-          e.target.reset(); // ফর্ম ক্লিয়ার করার জন্য
+          e.target.reset();
 
           setTimeout(() => {
             navigate("/my-jobs");

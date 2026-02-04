@@ -22,12 +22,12 @@ const Home = () => {
             <input 
               type="text" 
               placeholder="চাকরির পদবী বা কোম্পানি..." 
-              className="flex-grow p-3 text-gray-800 outline-none rounded-md"
+              className="grow p-3 text-gray-800 outline-none rounded-md"
             />
             <input 
               type="text" 
               placeholder="লোকেশন (যেমন: ঢাকা)" 
-              className="flex-grow p-3 text-gray-800 border-l-0 md:border-l border-gray-200 outline-none rounded-md"
+              className="grow p-3 text-gray-800 border-l-0 md:border-l border-gray-200 outline-none rounded-md"
             />
             <button className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-md font-bold transition">
               খুঁজুন

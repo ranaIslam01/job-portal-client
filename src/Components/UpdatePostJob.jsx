@@ -78,7 +78,6 @@ const UpdatePostJob = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ডাটা লোড না হওয়া পর্যন্ত একটি লোডিং মেসেজ দেখানো ভালো
   if (!job)
     return <div className="text-center py-20">Loading job details...</div>;
 

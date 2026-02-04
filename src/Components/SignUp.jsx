@@ -6,7 +6,7 @@ import {
   HiOutlineUser,
 } from "react-icons/hi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc"; // Google Icon
+import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../Contexts/AuthContext/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { ClipLoader } from "react-spinners";
@@ -33,7 +33,6 @@ const SignUp = () => {
       
       toast.success("অ্যাকাউন্ট সফলভাবে তৈরি করা হয়েছে!");
       
-      // রেজিস্ট্রেশন সফল হলে ১.৫ সেকেন্ড পর হোমপেজে বা লগইন পেজে নেভিগেট করুন
       setTimeout(() => {
         navigate("/");
       }, 1500);

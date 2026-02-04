@@ -29,7 +29,7 @@ const Salaries = () => {
           <input 
             type="text" 
             placeholder="পদবীর নাম (যেমন: Frontend Developer)" 
-            className="flex-grow p-4 outline-none border-none text-gray-700 bg-gray-50 rounded-xl"
+            className="grow p-4 outline-none border-none text-gray-700 bg-gray-50 rounded-xl"
           />
           <button className="bg-blue-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-md shadow-blue-200">
             বেতন চেক করুন
@@ -58,7 +58,7 @@ const Salaries = () => {
                       <span className="text-blue-600 font-extrabold text-xl">{item.average}</span>
                     </td>
                     <td className="p-6">
-                      <div className="w-full bg-gray-200 rounded-full h-2 mb-2 max-w-[150px]">
+                      <div className="w-full bg-gray-200 rounded-full h-2 mb-2 max-w-37.5">
                         <div className="bg-blue-500 h-2 rounded-full w-2/3"></div>
                       </div>
                       <p className="text-xs text-gray-500 font-medium">{item.range}</p>

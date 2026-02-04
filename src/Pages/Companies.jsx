@@ -28,7 +28,7 @@ const Companies = () => {
           <input 
             type="text" 
             placeholder="কোম্পানির নাম লিখুন..." 
-            className="flex-grow p-4 border border-gray-200 rounded-xl shadow-sm outline-none focus:ring-2 focus:ring-blue-500"
+            className="grow p-4 border border-gray-200 rounded-xl shadow-sm outline-none focus:ring-2 focus:ring-blue-500"
           />
           <select className="p-4 border border-gray-200 rounded-xl shadow-sm outline-none bg-white text-gray-600">
             <option>সব ইন্ডাস্ট্রি</option>

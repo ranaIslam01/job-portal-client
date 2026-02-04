@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import { AuthContext } from "../Contexts/AuthContext/AuthContext"; // আপনার সঠিক পাথ দিন
+import { AuthContext } from "../Contexts/AuthContext/AuthContext";
 
 const JobApply = () => {
   const job = useLoaderData();
-  const { user } = useContext(AuthContext); // লগইন করা ইউজারের ডাটা
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleApply = (e) => {
@@ -16,14 +16,13 @@ const JobApply = () => {
       job_id: job._id,
       job_title: job.title,
       company: job.company,
-      applicant_email: user?.email, // ইউজারের ইমেইল সরাসরি অথ থেকে নেওয়া
+      applicant_email: user?.email,
       linkedin_url: form.linkedin.value,
       github_url: form.github.value,
       resume_url: form.resume.value,
-      applied_date: new Date().toLocaleDateString(), // আবেদনের তারিখ
+      applied_date: new Date().toLocaleDateString(),
     };
 
-    // ব্যাকএন্ডে ডাটা পাঠানো
     fetch("https://job-portal-server-y6ck.onrender.com/job-applications", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -115,7 +114,6 @@ const JobApply = () => {
               required
             />
             <p className="text-xs text-gray-400 mt-2">
-              *নিশ্চিত করুন যে ড্রাইভ লিঙ্কটির 'Public Access' অন আছে।
             </p>
           </div>
 

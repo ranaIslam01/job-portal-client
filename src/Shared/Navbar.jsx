@@ -47,7 +47,6 @@ const handleSignOut = () => {
   });
 };
 
-  // ১. আপনার নতুন পেজ "My Jobs" এখানে অ্যাড করা হয়েছে
   const navLinks = [
     // { name: "Home", path: "/" },
     { name: "Find Jobs", path: "/find-jobs" },
@@ -91,7 +90,7 @@ const handleSignOut = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           
-          {/* লোগো */}
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
               <motion.span
@@ -109,7 +108,6 @@ const handleSignOut = () => {
             </h1>
           </Link>
 
-          {/* ডেস্কটপ ও ট্যাবলেট মেনু (Large Tablet/Desktop - lg) */}
           <div className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link) => (
               <NavLink key={link.path} to={link.path} className={desktopActiveStyle}>
@@ -163,7 +161,6 @@ const handleSignOut = () => {
         </div>
       </div>
 
-      {/* মোবাইল ড্রপডাউন (ট্যাবলেট পর্যন্ত কভার করবে) */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100 ${
           isOpen ? "max-h-150 opacity-100 shadow-2xl" : "max-h-0 opacity-0"

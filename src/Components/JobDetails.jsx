@@ -2,11 +2,9 @@ import React from "react";
 import { Link, useLoaderData, useNavigate } from "react-router";
 
 const JobDetails = () => {
-  // রাউটারের লোডার থেকে ডাটা নেওয়া
   const job = useLoaderData();
   const navigate = useNavigate();
 
-  // যদি ডাটা লোড হতে সময় নেয় বা না পাওয়া যায়
   if (!job || Object.keys(job).length === 0) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -16,7 +14,6 @@ const JobDetails = () => {
     );
   }
 
-  // ডাটা ডিস্ট্রাকচারিং (Safety Check সহ)
   const {
     _id,
     title,
@@ -39,7 +36,6 @@ const JobDetails = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-10 font-sans">
       <div className="max-w-4xl mx-auto px-4">
-        {/* ফিরে যাওয়ার বাটন */}
         <button
           onClick={() => navigate(-1)}
           className="mb-6 text-blue-600 font-semibold flex items-center gap-2 hover:underline transition-all"
@@ -48,7 +44,7 @@ const JobDetails = () => {
         </button>
 
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-          {/* হেডার সেকশন */}
+          {/* Header setion */}
           <div className="bg-blue-600 p-8 text-white">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div className="flex items-center gap-4">
@@ -69,7 +65,7 @@ const JobDetails = () => {
           </div>
 
           <div className="p-8">
-            {/* চাকুরির সংক্ষিপ্ত তথ্য */}
+            {/* Job releted Data */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
               <div className="space-y-4 bg-blue-50/30 p-5 rounded-2xl border border-blue-50">
                 <h3 className="text-lg font-bold text-gray-800 border-b border-blue-100 pb-2">
@@ -106,7 +102,6 @@ const JobDetails = () => {
               </div>
             </div>
 
-            {/* বিস্তারিত বিবরণ */}
             <div className="mb-8">
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 চাকরির বিবরণ
@@ -116,7 +111,7 @@ const JobDetails = () => {
               </p>
             </div>
 
-            {/* দায়িত্বসমূহ */}
+            {/* Responsibilies */}
             <div className="mb-8">
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 দায়িত্বসমূহ
@@ -130,7 +125,7 @@ const JobDetails = () => {
               </ul>
             </div>
 
-            {/* কন্টাক্ট ইনফো */}
+            {/* contuct */}
             <div className="bg-gray-50 p-6 rounded-2xl mb-10 border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
                 <h4 className="font-bold text-gray-800 text-lg mb-1">যোগাযোগের তথ্য:</h4>
@@ -141,7 +136,6 @@ const JobDetails = () => {
               </div>
             </div>
 
-            {/* আবেদন বাটন - এখানে পাথটি ঠিক করা হয়েছে */}
             <Link
               to={`/job-apply/${_id}`}
               className="block w-full text-center bg-blue-600 text-white py-4 rounded-2xl font-bold text-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 active:scale-[0.98]"

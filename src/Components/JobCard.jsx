@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router";
 
 const JobCard = ({ job }) => {
-  // ১. ডিস্ট্রাকচারিং করা হলো যাতে কোড পড়তে সুবিধা হয়
   const {
     _id,
     title,
@@ -18,7 +17,7 @@ const JobCard = ({ job }) => {
     <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all duration-300 group">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
-          {/* কোম্পানি লোগো */}
+          {/*Company logo*/}
           <div className="w-16 h-16 bg-gray-50 p-2 rounded-2xl border border-gray-100 flex items-center justify-center overflow-hidden">
             <img
               src={company_logo}
@@ -48,7 +47,6 @@ const JobCard = ({ job }) => {
         </div>
 
         <div className="flex flex-col items-end gap-3 border-t md:border-t-0 pt-4 md:pt-0">
-          {/* ২. লিঙ্কটি ফিক্স করা হয়েছে */}
           <Link
             to={`/jobs/${_id}`}  
             className="bg-gray-900 text-white px-8 py-3 rounded-xl font-bold text-center hover:bg-blue-600 transition-all w-full md:w-auto"
